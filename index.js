@@ -11,9 +11,9 @@ const workspace = process.env.GITHUB_WORKSPACE;
   console.log('process.env.GITHUB_EVENT_PATH = ',process.env.GITHUB_EVENT_PATH)
 
   const event = process.env.GITHUB_EVENT_PATH ? require(process.env.GITHUB_EVENT_PATH) : {};
-    console.log('event', event)
+    console.log('event', event.pull_request.commits)
 
-  if (!event.commits) {
+  if (!event.pull_request.commits) {
     console.log("Couldn't find any commits in this event, incrementing patch version...");
   }
 
