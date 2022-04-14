@@ -244,7 +244,7 @@ function runInWorkspace(command, args) {
     });
     child.stdout.setEncoding('utf8');
     child.stderr.on('data', (chunk) => errorMessages.push(chunk));
-    child.stdout.on('data', (chunk) => console.log('out',chunk.toString()));
+    child.stdout.on('data', (chunk) => console.log('stdout', command, args,chunk.toString()));
     child.on('exit', (code) => {
       if (!isDone) {
         if (code === 0) {
