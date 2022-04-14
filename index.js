@@ -10,20 +10,23 @@ const workspace = process.env.GITHUB_WORKSPACE;
   const pkg = getPackageJson();
   
   const event = process.env.GITHUB_EVENT_PATH ? require(process.env.GITHUB_EVENT_PATH) : {};
-  console.log('event', event)
-  console.log('event commits', event.commits)
 
-    console.log('event pull_request', event.pull_request)
+    console.log('event pull_request._links.commits', event.pull_request._links.commits)
 
-  if (!event.pull_request.commits) {
+  if (!event.commits) {
     console.log("Couldn't find any commits in this event, incrementing patch version...");
   }
 
   const tagPrefix = process.env['INPUT_TAG-PREFIX'] || '';
   const messages = event.commits ? event.commits.map((commit) => commit.message + '\n' + commit.body) : [];
+  
+  const myTestMessages = event.pull_request._links.commits ?event.pull_request._links.commits.map((commit) => commit.message + '\n' + commit.body) : [];
 
-  const commitMessage = process.env['INPUT_COMMIT-MESSAGE'] || 'ci: version bump to {{version}}';
+  console.log('my commit messages:', myTestMessages);
+
+
   console.log('commit messages:', messages);
+  const commitMessage = process.env['INPUT_COMMIT-MESSAGE'] || 'ci: version bump to {{version}}';
 
   const bumpPolicy = process.env['INPUT_BUMP-POLICY'] || 'all';
   const commitMessageRegex = new RegExp(commitMessage.replace(/{{version}}/g, `${tagPrefix}\\d+\\.\\d+\\.\\d+`), 'ig');
