@@ -6,14 +6,16 @@ const path = require('path');
 
 // Change working directory if user defined PACKAGEJSON_DIR
 if (process.env.PACKAGEJSON_DIR) {
+    console.log('user defined PACKAGEJSON_DIR')
   process.env.GITHUB_WORKSPACE = `${process.env.GITHUB_WORKSPACE}/${process.env.PACKAGEJSON_DIR}`;
   process.chdir(process.env.GITHUB_WORKSPACE);
 }
-
+console.log('process.env.GITHUB_WORKSPACE= ', process.env.GITHUB_WORKSPACE)
 const workspace = process.env.GITHUB_WORKSPACE;
 
 (async () => {
   const pkg = getPackageJson();
+  console.log('pkg= ', pkg)
   const event = process.env.GITHUB_EVENT_PATH ? require(process.env.GITHUB_EVENT_PATH) : {};
 
   if (!event.commits) {
@@ -132,8 +134,10 @@ const workspace = process.env.GITHUB_WORKSPACE;
 
   // GIT logic
   try {
+    console.log('inside GIT logic')
     const current = pkg.version.toString();
     // set git user
+    console.log(process.env.GITHUB_USER)
     await runInWorkspace('git', ['config', 'user.name', `"${process.env.GITHUB_USER || 'Automated Version Bump'}"`]);
     await runInWorkspace('git', [
       'config',
