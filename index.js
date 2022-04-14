@@ -137,16 +137,12 @@ const workspace = process.env.GITHUB_WORKSPACE;
     console.log('inside GIT logic')
     const current = pkg.version.toString();
     // set git user
-    console.log(process.env.GITHUB_USER)
-    await runInWorkspace('git', ['config', 'user.name', `"${process.env.GITHUB_USER || 'Automated Version Bump'}"`]);
-    await runInWorkspace('git', [
-      'config',
-      'user.email',
-      `"${process.env.GITHUB_EMAIL || 'gh-action-bump-version@users.noreply.github.com'}"`,
-    ]);
+    await runInWorkspace('git', ['config', 'user.name', 'Automated Version Bump']);
 
+    console.log('process.env.GITHUB_REF= ',process.env.GITHUB_REF)
     let currentBranch = /refs\/[a-zA-Z]+\/(.*)/.exec(process.env.GITHUB_REF)[1];
     let isPullRequest = false;
+    console.log('process.env.GITHUB_HEAD_REF= ', process.env.GITHUB_HEAD_REF)
     if (process.env.GITHUB_HEAD_REF) {
       // Comes from a pull request
       currentBranch = process.env.GITHUB_HEAD_REF;
