@@ -8,9 +8,9 @@ const workspace = process.env.GITHUB_WORKSPACE;
 
 (async () => {
   const pkg = getPackageJson();
-  console.log('event', event)
-
+  
   const event = process.env.GITHUB_EVENT_PATH ? require(process.env.GITHUB_EVENT_PATH) : {};
+  console.log('event', event)
   console.log('event commits', event.commits)
 
     console.log('event pull_request', event.pull_request)
