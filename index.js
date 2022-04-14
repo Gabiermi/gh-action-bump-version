@@ -169,6 +169,7 @@ const workspace = process.env.GITHUB_WORKSPACE;
       // First fetch to get updated local version of branch
       await runInWorkspace('git', ['fetch']);
     }
+    await runInWorkspace('git', ['branch']);
     await runInWorkspace('git', ['checkout', currentBranch]);
     await runInWorkspace('npm', ['version', '--allow-same-version=true', '--git-tag-version=false', current]);
     console.log('current:', current, '/', 'version:', version);
@@ -242,6 +243,7 @@ function runInWorkspace(command, args) {
       }
     });
     child.stderr.on('data', (chunk) => errorMessages.push(chunk));
+    child.stdout.on('data', (chunk) => console.log('out',chunk));
     child.on('exit', (code) => {
       if (!isDone) {
         if (code === 0) {
