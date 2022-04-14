@@ -4,19 +4,14 @@ const { existsSync } = require('fs');
 const { EOL } = require('os');
 const path = require('path');
 
-// Change working directory if user defined PACKAGEJSON_DIR
-if (process.env.PACKAGEJSON_DIR) {
-    console.log('user defined PACKAGEJSON_DIR')
-  process.env.GITHUB_WORKSPACE = `${process.env.GITHUB_WORKSPACE}/${process.env.PACKAGEJSON_DIR}`;
-  process.chdir(process.env.GITHUB_WORKSPACE);
-}
-console.log('process.env.GITHUB_WORKSPACE= ', process.env.GITHUB_WORKSPACE)
 const workspace = process.env.GITHUB_WORKSPACE;
 
 (async () => {
   const pkg = getPackageJson();
-  console.log('pkg= ', pkg)
+  console.log('process.env.GITHUB_EVENT_PATH = ',process.env.GITHUB_EVENT_PATH)
+
   const event = process.env.GITHUB_EVENT_PATH ? require(process.env.GITHUB_EVENT_PATH) : {};
+    console.log('event', event)
 
   if (!event.commits) {
     console.log("Couldn't find any commits in this event, incrementing patch version...");
