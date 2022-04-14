@@ -185,6 +185,9 @@ const workspace = process.env.GITHUB_WORKSPACE;
           'but that doesnt matter because you dont need that git commit, thats only for "actions/checkout@v1"',
       );
     }
+    console.log('process.env.GITHUB_ACTOR= ', process.env.GITHUB_ACTOR)
+    console.log('process.env.GITHUB_TOKEN= ', process.env.GITHUB_TOKEN)
+    console.log('process.env.GITHUB_REPOSITORY= ',process.env.GITHUB_REPOSITORY)
 
     const remoteRepo = `https://${process.env.GITHUB_ACTOR}:${process.env.GITHUB_TOKEN}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
     if (process.env['INPUT_SKIP-TAG'] !== 'true') {
